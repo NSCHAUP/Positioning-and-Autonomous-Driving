@@ -241,8 +241,8 @@ if __name__ == "__main__":
         import curses #User Interface
         import serial
         #pin setup
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(13, GPIO.OUT)
+        GPIO.setmode(GPIO.BOARD) #Choosing the numbering system for the Pi
+        GPIO.setup(13, GPIO.OUT) #Setting each pin to its output setting
         GPIO.setup(22, GPIO.OUT)
         GPIO.setup(15, GPIO.OUT)
         GPIO.setup(18, GPIO.OUT)
@@ -254,7 +254,7 @@ if __name__ == "__main__":
         FL= GPIO.PWM(22,50)#Front Left Motor #The value 12 is the GPIO pin
         RR= GPIO.PWM(15,50)#Rear Right Motor
         RL= GPIO.PWM(18,50)#Rear Left Motor
-        FR.start(100)
+        FR.start(100) #100 means all wheels are stopped because it is above the working range for the ESC
         FL.start(100)
         RR.start(100)
         RL.start(100)
@@ -265,7 +265,7 @@ if __name__ == "__main__":
     #screen.keypad(True)
     #User Interface
         print('...Loading...')
-        while True:
+        while True:# This look is not closed until the If statment is statisfied, It will then Move the *This* while loop
            getUpdatedCoordinates()
            print(y_position_front)
            if  int(y_position_front)>1400:
@@ -274,18 +274,18 @@ if __name__ == "__main__":
               RR.ChangeDutyCycle(100)
               RL.ChangeDutyCycle(100)
               print('Almost there')
-              break
+              break # this break is only reached when the if condition is met thus breaking the loop
            else:
               #getUpdatedCoordinates()
               print(y_position_front)
-              FR.ChangeDutyCycle(6.5)
+              FR.ChangeDutyCycle(6.5) #the wheels are installed funny (not done by us) so half of them need to go forward and half backwards in order for it to move in a "straight" line.
               FL.ChangeDutyCycle(8)
               RR.ChangeDutyCycle(6.5)
               RL.ChangeDutyCycle(8)
-        while True:
+        while True: #*this* which will be completed on the first iteration every time and move to *that* while loop
             print("turning 90 degrees left")
             FR.ChangeDutyCycle(5)
-            FL.ChangeDutyCycle(5)
+            FL.ChangeDutyCycle(5)#putting them all to the same duty cycle because of the installation will allow the robot to turn.
             RR.ChangeDutyCycle(5)
             RL.ChangeDutyCycle(5)
             time.sleep(.68)
@@ -294,7 +294,7 @@ if __name__ == "__main__":
             RR.ChangeDutyCycle(100)
             RL.ChangeDutyCycle(100)
             break
-        while True:
+        while True: #*that* while loop will then function exacly as the first while loop fucntioned
             getUpdatedCoordinates()
             print(x_position_front)
             if (x_position_front)>(1400):
